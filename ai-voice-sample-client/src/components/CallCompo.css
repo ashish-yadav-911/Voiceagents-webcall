@@ -1,0 +1,97 @@
+.call-component {
+  width: 50%;
+  margin: 0 auto;
+  background-color: #f4f4f4;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.startCall {
+  width: 150px;
+  background-color: #69a2c9;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button.startCall:not(:disabled):hover {
+  background-color: #1379b4;
+}
+
+.endCall {
+  width: 150px;
+  background-color: #e03b3b;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.endCall:hover {
+  background-color: #d30a0a;
+}
+
+.container {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.CallerHeading {
+  display: flex;
+  border: 1px solid #d7d7d7;
+  padding: 16px 10px;
+  align-items: center;
+  margin: 12px;
+  justify-content: space-between;
+  gap: 145px;
+  min-width: 300px;
+  box-sizing: border-box;
+}
+
+.SampleHeading {
+  border: 1px solid #2b8cc3;
+  padding: 20px 180px 20px 30px;
+  margin: 12px;
+  display: flex;
+  justify-content: space-between;
+  gap: 45px;
+}
+
+.ExamplePara {
+  font-size: small;
+  margin: 0px;
+}
+.disabledButton {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.Content {
+  width: 300px;
+}
+.AIvoice {
+  margin: 0px 47px 0px 47px;
+}

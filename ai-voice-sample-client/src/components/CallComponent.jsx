@@ -72,7 +72,7 @@ function CallComponent() {
   const ApiCallBasedOnFlag = async (flag) => {
     try {
       const response = await axios.get(
-        `${apiURL}:4000/voiceAgent/startCall${flag}`
+        `${apiURL}voiceAgent/startCall${flag}`
       );
       if (response.status === 200) {
         setStartCall(flag);

@@ -7,7 +7,7 @@ const cors = require("cors");
 const CallingRouter = require("./routes/CallingRoute");
 
 const port = process.env.PORT || 4001;
-const host = process.env.HOST || "localhost";
+//const host = process.env.HOST || "localhost";
 
 // Middleware
 // app.use(express.json());
@@ -36,6 +36,6 @@ app.use((err, req, res, next) => {
 //   console.log(`Server is listening at https://${host}:${port}`);
 // });
 
-app.listen(port, host, () => {
-  console.log(`Server is listening at http://${host}:${port}`);
+app.listen(port, () => {
+  console.log(`Server is listening at ${port}`);
 });

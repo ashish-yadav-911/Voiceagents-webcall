@@ -14,6 +14,10 @@ const port = process.env.PORT || 4001;
 app.use(cors());
 
 // Routes
+app.get('/', (req, res) => {
+  res.send('Express on Vercel');
+});
+
 app.use("/voiceAgent", CallingRouter);
 
 // Error handling middleware

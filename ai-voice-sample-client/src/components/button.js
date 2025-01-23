@@ -37,10 +37,10 @@ export const Buttons = [
   },
   {
     id: 6,
-    name: "Call to Appointment",
-    about: "Khakshtan Healthcare",
+    name: "Book Appointment",
+    about: "Doctor's Appointment",
     exmaple:
-      "Example: Russian Language powered appointment scheduler",
+      "Russian Language powered appointment scheduler",
     toggle: true,
   },
 

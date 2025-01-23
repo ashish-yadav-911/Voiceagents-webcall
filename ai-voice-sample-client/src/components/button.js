@@ -1,7 +1,7 @@
 export const Buttons = [
   {
     id: 1,
-    name: "Call to Domino",
+    name: "Call to Dominos",
     about: "Food Ordering System",
     exmaple: "Example: Order Pizza at Domino's",
     toggle: true,

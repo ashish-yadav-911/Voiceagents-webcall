@@ -10,7 +10,7 @@ const port = process.env.PORT || 4001;
 //const host = process.env.HOST || "localhost";
 
 // Middleware
-// app.use(express.json());
+app.use(express.json());
 app.use(cors());
 
 // Routes

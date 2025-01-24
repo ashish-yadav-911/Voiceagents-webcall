@@ -43,5 +43,12 @@ export const Buttons = [
       "Russian Language powered appointment scheduler",
     toggle: true,
   },
+  {
+    "id": 7,
+    "name": "Investment Inquiry",
+    "about": "Data collection for investment queries with status checks and investment details.",
+    "example": "AI-powered assistant scheduling consultations based on investment preferences.",
+    "toggle": true
+  },
 
 ];

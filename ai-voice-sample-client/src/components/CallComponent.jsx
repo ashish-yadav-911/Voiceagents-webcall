@@ -11,12 +11,26 @@ const apiURL = process.env.REACT_APP_NODE_API_URL;
 
 const sdk = new RetellWebClient();
 
+// const startCall = (regisResp) => {
+//   sdk.startConversation({
+//     callId: regisResp.call_id,
+//     sampleRate: regisResp.sample_rate,
+//     enableUpdate: false,
+//   });
+// };
+
 const startCall = (regisResp) => {
-  sdk.startConversation({
-    callId: regisResp.call_id,
-    sampleRate: regisResp.sample_rate,
-    enableUpdate: false,
-  });
+  navigator.mediaDevices.getUserMedia({ audio: true })
+      .then(stream => {
+          sdk.startConversation({
+              callId: regisResp.call_id,
+              sampleRate: regisResp.sample_rate,
+              enableUpdate: false,
+          });
+      })
+      .catch(error => {
+          console.error("Microphone permission denied:", error);
+      });
 };
 
 function CallComponent() {

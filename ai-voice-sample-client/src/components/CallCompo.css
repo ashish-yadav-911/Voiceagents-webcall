@@ -23,75 +23,181 @@ input[type="text"] {
   border-radius: 5px;
 }
 
-.startCall {
-  width: 150px;
-  background-color: #69a2c9;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-button.startCall:not(:disabled):hover {
-  background-color: #1379b4;
-}
-
-.endCall {
-  width: 150px;
-  background-color: #e03b3b;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.endCall:hover {
-  background-color: #d30a0a;
-}
-
 .container {
-  margin-top: 40px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.CallerHeading {
-  display: flex;
-  border: 1px solid #d7d7d7;
-  padding: 16px 10px;
-  align-items: center;
-  margin: 12px;
-  justify-content: space-between;
-  gap: 145px;
-  min-width: 300px;
-  box-sizing: border-box;
+  max-width: 900px;
+  width: 90%;
+  margin: 1.5rem auto;
+  padding: 0 1rem;
 }
 
 .SampleHeading {
   border: 1px solid #2b8cc3;
-  padding: 20px 180px 20px 30px;
-  margin: 12px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  gap: 45px;
+  flex-wrap: wrap;
+  gap: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: #f8f9fa;
 }
 
-.ExamplePara {
-  font-size: small;
-  margin: 0px;
+.SampleHeading img {
+  max-width: 150px;
+  height: auto;
+  width: 100%;
 }
-.disabledButton {
-  background-color: #ccc;
-  cursor: not-allowed;
+
+.AIvoice {
+  font-size: 1.25rem;
+  color: #2b8cc3;
+  margin: 0;
+}
+
+.CallerHeading {
+  display: flex;
+  border: 1px solid #e0e0e0;
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  box-sizing: border-box;
+  flex-wrap: wrap;
+  gap: 1rem;
+  background-color: #fff;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
 .Content {
-  width: 300px;
+  flex: 1;
+  min-width: 200px;
+  max-width: 500px;
+  padding-right: 1rem;
 }
-.AIvoice {
-  margin: 0px 47px 0px 47px;
+
+.Content h2 {
+  font-size: 1.1rem;
+  margin: 0 0 0.5rem 0;
+  color: #333;
+}
+
+.Content p {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.ExamplePara {
+  font-size: 0.8rem !important;
+  color: #666 !important;
+  margin: 0 !important;
+}
+
+.startCall, .endCall {
+  min-width: 120px;
+  height: 40px;
+  padding: 0 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+.startCall {
+  background-color: #69a2c9;
+  color: white;
+}
+
+.startCall:not(:disabled):hover {
+  background-color: #1379b4;
+  transform: translateY(-1px);
+}
+
+.endCall {
+  background-color: #e03b3b;
+  color: white;
+}
+
+.endCall:hover {
+  background-color: #d30a0a;
+  transform: translateY(-1px);
+}
+
+.disabledButton {
+  background-color: #ccc !important;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .container {
+    width: 95%;
+    padding: 0 0.5rem;
+  }
+
+  .SampleHeading {
+    padding: 0.75rem;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .SampleHeading img {
+    max-width: 120px;
+  }
+
+  .CallerHeading {
+    padding: 0.75rem;
+    flex-direction: column;
+    text-align: center;
+    gap: 0.75rem;
+  }
+
+  .Content {
+    padding-right: 0;
+    min-width: 180px;
+  }
+
+  .startCall, .endCall {
+    width: 100%;
+    max-width: 200px;
+  }
+}
+
+/* Additional responsive breakpoint for very small screens */
+@media (max-width: 480px) {
+  .SampleHeading {
+    padding: 0.5rem;
+  }
+
+  .SampleHeading img {
+    max-width: 100px;
+  }
+
+  .AIvoice {
+    font-size: 1.1rem;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+  .startCall, .endCall {
+    width: 100%;
+    max-width: 150px;
+  }
+}
+
+.img-fluid {
+  max-width: 100%;
+  height: auto;
 }

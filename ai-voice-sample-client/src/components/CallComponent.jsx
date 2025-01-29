@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./CallCompo.css";
 import axios from "axios";
 import { Buttons } from "./button";
@@ -8,18 +8,45 @@ import { RetellWebClient } from "retell-client-js-sdk";
 const apiURL = process.env.REACT_APP_NODE_API_URL;
 const sdk = new RetellWebClient();
 
-const startCall = (regisResp) => {
-  navigator.mediaDevices.getUserMedia({ audio: true })
-    .then(stream => {
-      sdk.startConversation({
-        callId: regisResp.call_id,
-        sampleRate: regisResp.sample_rate,
-        enableUpdate: false,
-      });
-    })
-    .catch(error => {
-      console.error("Microphone permission denied:", error);
+const startCall = async (regisResp) => {
+  try {
+    // First check if getUserMedia is supported
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      throw new Error("Audio is not supported in your browser");
+    }
+
+    // iOS Safari requires user interaction before allowing audio
+    // Add specific constraints for iOS
+    const constraints = {
+      audio: {
+        echoCancellation: true,
+        noiseSuppression: true,
+        autoGainControl: true,
+      }
+    };
+
+    const stream = await navigator.mediaDevices.getUserMedia(constraints);
+    
+    // Ensure audio is properly initialized on iOS
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    await audioContext.resume();
+    
+    sdk.startConversation({
+      callId: regisResp.call_id,
+      sampleRate: regisResp.sample_rate,
+      enableUpdate: false,
     });
+
+  } catch (error) {
+    console.error("Audio setup error:", error);
+    if (error.name === "NotAllowedError") {
+      window.alert("Microphone access is required. Please enable it in your device settings and try again.");
+    } else if (error.name === "NotFoundError") {
+      window.alert("No microphone found. Please ensure your device has a working microphone.");
+    } else {
+      window.alert(`Failed to start call: ${error.message}`);
+    }
+  }
 };
 
 function CallComponent() {

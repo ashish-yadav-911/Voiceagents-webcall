@@ -1,6 +1,6 @@
 export const Buttons = [
   {
-    id: 1,
+    id: "dfa3f8837f46b19d2c29bfb30bec8e26",
     name: "Call to Dominos",
     about: "Food Ordering System",
     exmaple: "Example: Order Pizza at Domino's",
@@ -39,16 +39,16 @@ export const Buttons = [
     id: 6,
     name: "Book Appointment",
     about: "Doctor's Appointment",
-    exmaple:
-      "Russian Language powered appointment scheduler",
+    exmaple: "Russian Language powered appointment scheduler",
     toggle: true,
   },
   {
-    "id": 7,
-    "name": "Investment Inquiry",
-    "about": "Data collection for investment queries with status checks and investment details.",
-    "example": "AI-powered assistant scheduling consultations based on investment preferences.",
-    "toggle": true
+    id: 7,
+    name: "Investment Inquiry",
+    about:
+      "Data collection for investment queries with status checks and investment details.",
+    example:
+      "AI-powered assistant scheduling consultations based on investment preferences.",
+    toggle: true,
   },
-
 ];

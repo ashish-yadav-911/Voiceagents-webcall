@@ -1,36 +1,40 @@
 const fs = require("fs").promises;
-const Retell = require("retell-sdk");
+const axios = require("axios");
 
 // Retrieving environment variables
 const apiKey = process.env.API_KEY;
-// const agentId = process.env.AGENT_ID;
-
-// Setting default values
-const audioEncoding = "s16le";
-const audioWebsocketProtocol = "web";
-const sampleRate = 24000;
-
-// Initializing Retell client
-const retellClient = new Retell({
-  apiKey: apiKey,
-});
+if (!apiKey) {
+  console.error("API_KEY is missing! Set it in your environment variables.");
+}
 
 //------------------------------------Register call function ------------------------------------
 const registerCall = async (agentId) => {
   try {
-    const registerCallResponse = await retellClient.call.register({
-      agent_id: agentId,
-      audio_encoding: audioEncoding,
-      audio_websocket_protocol: audioWebsocketProtocol,
-      sample_rate: sampleRate,
-    });
-    return registerCallResponse;
+    // console.log("Registering call for agentId:", agentId);
+
+    const response = await axios.post(
+      "https://api.retellai.com/v2/create-web-call",
+      { agent_id: agentId },
+      {
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    // console.log("Register Call API Response:", response.data);
+    return response.data; // Ensure you're returning only the response data
   } catch (error) {
-    console.error("Error registering call:", error);
+    console.error(
+      "Error registering call:",
+      error?.response?.data || error.message
+    );
     throw error;
   }
 };
 
+//------------------------------------Find Agent ID Function ------------------------------------
 const findAgentId = async (id) => {
   try {
     let agentId;
@@ -51,14 +55,17 @@ const findAgentId = async (id) => {
         agentId = "8f86cbead954181be14a22f7396422af";
         break;
       case 6:
-        agentId="agent_5383fe00b20e7a0ab3ff4560de";
+        agentId = "agent_5383fe00b20e7a0ab3ff4560de";
         break;
       case 7:
-        agentId="agent_e733b755eb1f2837cd22d87c42";
+        agentId = "agent_e733b755eb1f2837cd22d87c42";
         break;
       default:
         throw new Error("Invalid agent ID");
     }
+
+    // console.log("Mapped ID to agentId:", agentId);
+
     if (agentId) {
       const regisResp = await registerCall(agentId);
       return regisResp;
@@ -66,16 +73,18 @@ const findAgentId = async (id) => {
       throw new Error("Agent ID not found");
     }
   } catch (error) {
-    console.error("Error finding agent ID:", error);
+    console.error("Error finding agent ID:", error.message);
     throw error;
   }
 };
 
-//------------------------------------Start conversation API's function--------------------------
+//------------------------------------Start Conversation API Function--------------------------
 const gettingCallingData = async (req, res) => {
   try {
     const { id } = req.params;
     const numericId = parseInt(id, 10);
+
+    // console.log("Received request with ID:", numericId);
 
     if (isNaN(numericId)) {
       return res.status(400).json({ error: "Invalid ID format" });
@@ -88,11 +97,11 @@ const gettingCallingData = async (req, res) => {
         data: regisResp,
       });
     } catch (err) {
-      console.error("Error registering call:", err);
+      console.error("Error registering call:", err.message);
       res.status(500).json({ error: "Error registering call" });
     }
   } catch (err) {
-    console.error("Error starting conversation:", err);
+    console.error("Error starting conversation:", err.message);
     res.status(500).json({ error: "Error starting conversation" });
   }
 };

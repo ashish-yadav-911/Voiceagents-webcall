@@ -22,27 +22,31 @@ const startCall = async (regisResp) => {
         echoCancellation: true,
         noiseSuppression: true,
         autoGainControl: true,
-      }
+      },
     };
 
     const stream = await navigator.mediaDevices.getUserMedia(constraints);
-    
+
     // Ensure audio is properly initialized on iOS
-    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const audioContext = new (window.AudioContext ||
+      window.webkitAudioContext)();
     await audioContext.resume();
-    
+
     sdk.startConversation({
       callId: regisResp.call_id,
       sampleRate: regisResp.sample_rate,
       enableUpdate: false,
     });
-
   } catch (error) {
     console.error("Audio setup error:", error);
     if (error.name === "NotAllowedError") {
-      window.alert("Microphone access is required. Please enable it in your device settings and try again.");
+      window.alert(
+        "Microphone access is required. Please enable it in your device settings and try again."
+      );
     } else if (error.name === "NotFoundError") {
-      window.alert("No microphone found. Please ensure your device has a working microphone.");
+      window.alert(
+        "No microphone found. Please ensure your device has a working microphone."
+      );
     } else {
       window.alert(`Failed to start call: ${error.message}`);
     }
@@ -101,9 +105,9 @@ function CallComponent() {
 
   const ApiCallBasedOnFlag = async (flag) => {
     try {
-      const response = await axios.get(
-        `${apiURL}voiceAgent/startCall${flag}`
-      );
+      const response = await axios.post(`${apiURL}voiceAgent/startCall`, {
+        agent_id: flag,
+      });
       if (response.status === 200) {
         setStartCall(flag);
         startCall(response.data.data);
@@ -124,7 +128,7 @@ function CallComponent() {
         </div>
         <h1 className="AIvoice">AI Voice Samples</h1>
       </header>
-      
+
       <main>
         {buttons?.map((btn) => (
           <div className="CallerHeading" key={btn?.id || btn?.name}>

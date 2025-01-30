@@ -3,6 +3,6 @@ const CallingRouter = express.Router();
 
 const { gettingCallingData } = require("../controllers/VoipAgent");
 
-CallingRouter.get("/startCall:id", gettingCallingData);
+CallingRouter.post("/startCall", gettingCallingData);
 
 module.exports = CallingRouter;

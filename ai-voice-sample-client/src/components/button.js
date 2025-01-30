@@ -39,16 +39,16 @@ export const Buttons = [
     id: 6,
     name: "Book Appointment",
     about: "Doctor's Appointment",
-    exmaple:
-      "Russian Language powered appointment scheduler",
+    exmaple: "Russian Language powered appointment scheduler",
     toggle: true,
   },
   {
-    "id": 7,
-    "name": "Investment Inquiry",
-    "about": "Data collection for investment queries with status checks and investment details.",
-    "example": "AI-powered assistant scheduling consultations based on investment preferences.",
-    "toggle": true
+    id: 7,
+    name: "Investment Inquiry",
+    about:
+      "Data collection for investment queries with status checks and investment details.",
+    example:
+      "AI-powered assistant scheduling consultations based on investment preferences.",
+    toggle: true,
   },
-
 ];

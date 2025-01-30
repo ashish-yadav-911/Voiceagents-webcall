@@ -4,20 +4,14 @@ const Retell = require("retell-sdk");
 
 // Retrieving environment variables
 const apiKey = process.env.API_KEY;
-// const agentId = process.env.AGENT_ID;
-
-// Setting default values
-const audioEncoding = "s16le";
-const audioWebsocketProtocol = "web";
-const sampleRate = 24000;
-
-// Initializing Retell client
-const retellClient = new Retell({
-  apiKey: apiKey,
-});
+if (!apiKey) {
+  console.error("API_KEY is missing! Set it in your environment variables.");
+}
 
 //------------------------------------Register call function ------------------------------------
 const registerCall = async (agentId) => {
+  console.log(agentId);
+
   try {
     // const registerCallResponse = await retellClient.call.register({
     //   agent_id: agentId,
@@ -25,7 +19,6 @@ const registerCall = async (agentId) => {
     //   audio_websocket_protocol: audioWebsocketProtocol,
     //   sample_rate: sampleRate,
     // });
-    console.log(agentId);
 
     const registerCallResponse = await axios.post(
       "https://api.retellai.com/v2/create-web-call",
@@ -37,15 +30,18 @@ const registerCall = async (agentId) => {
         },
       }
     );
-    console.log(registerCallResponse.data);
 
     return registerCallResponse.data;
   } catch (error) {
-    console.error("Error registering call:", error);
+    console.error(
+      "Error registering call:",
+      error?.response?.data || error.message
+    );
     throw error;
   }
 };
 
+//------------------------------------Find Agent ID Function ------------------------------------
 const findAgentId = async (id) => {
   try {
     let agentId;
@@ -81,16 +77,19 @@ const findAgentId = async (id) => {
       throw new Error("Agent ID not found");
     }
   } catch (error) {
-    console.error("Error finding agent ID:", error);
+    console.error("Error finding agent ID:", error.message);
     throw error;
   }
 };
 
-//------------------------------------Start conversation API's function--------------------------
+//------------------------------------Start Conversation API Function--------------------------
 const gettingCallingData = async (req, res) => {
   try {
     const { id } = req.params;
+
     const numericId = parseInt(id, 10);
+
+    // console.log("Received request with ID:", numericId);
 
     if (isNaN(numericId)) {
       return res.status(400).json({ error: "Invalid ID format" });
@@ -103,11 +102,11 @@ const gettingCallingData = async (req, res) => {
         data: regisResp,
       });
     } catch (err) {
-      console.error("Error registering call:", err);
+      console.error("Error registering call:", err.message);
       res.status(500).json({ error: "Error registering call" });
     }
   } catch (err) {
-    console.error("Error starting conversation:", err);
+    console.error("Error starting conversation:", err.message);
     res.status(500).json({ error: "Error starting conversation" });
   }
 };

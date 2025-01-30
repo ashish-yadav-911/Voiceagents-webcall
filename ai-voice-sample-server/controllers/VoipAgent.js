@@ -1,4 +1,5 @@
 const fs = require("fs").promises;
+const axios = require("axios");
 const Retell = require("retell-sdk");
 
 // Retrieving environment variables
@@ -18,13 +19,27 @@ const retellClient = new Retell({
 //------------------------------------Register call function ------------------------------------
 const registerCall = async (agentId) => {
   try {
-    const registerCallResponse = await retellClient.call.register({
-      agent_id: agentId,
-      audio_encoding: audioEncoding,
-      audio_websocket_protocol: audioWebsocketProtocol,
-      sample_rate: sampleRate,
-    });
-    return registerCallResponse;
+    // const registerCallResponse = await retellClient.call.register({
+    //   agent_id: agentId,
+    //   audio_encoding: audioEncoding,
+    //   audio_websocket_protocol: audioWebsocketProtocol,
+    //   sample_rate: sampleRate,
+    // });
+    console.log(agentId);
+
+    const registerCallResponse = await axios.post(
+      "https://api.retellai.com/v2/create-web-call",
+      { agent_id: agentId },
+      {
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    console.log(registerCallResponse.data);
+
+    return registerCallResponse.data;
   } catch (error) {
     console.error("Error registering call:", error);
     throw error;
@@ -51,10 +66,10 @@ const findAgentId = async (id) => {
         agentId = "8f86cbead954181be14a22f7396422af";
         break;
       case 6:
-        agentId="agent_5383fe00b20e7a0ab3ff4560de";
+        agentId = "agent_5383fe00b20e7a0ab3ff4560de";
         break;
       case 7:
-        agentId="agent_e733b755eb1f2837cd22d87c42";
+        agentId = "agent_e733b755eb1f2837cd22d87c42";
         break;
       default:
         throw new Error("Invalid agent ID");

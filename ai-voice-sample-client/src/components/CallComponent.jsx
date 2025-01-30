@@ -10,39 +10,32 @@ const sdk = new RetellWebClient();
 
 const startCall = async (regisResp) => {
   try {
-    // First check if getUserMedia is supported
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
       throw new Error("Audio is not supported in your browser");
     }
 
-    // iOS Safari requires user interaction before allowing audio
-    // Add specific constraints for iOS
     const constraints = {
       audio: {
         echoCancellation: true,
         noiseSuppression: true,
         autoGainControl: true,
-      }
+      },
     };
 
-    const stream = await navigator.mediaDevices.getUserMedia(constraints);
-    
-    // Ensure audio is properly initialized on iOS
-    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    await audioContext.resume();
-    
-    sdk.startConversation({
-      callId: regisResp.call_id,
-      sampleRate: regisResp.sample_rate,
-      enableUpdate: false,
+    await navigator.mediaDevices.getUserMedia(constraints);
+    sdk.startCall({
+      accessToken: regisResp.access_token,
     });
-
   } catch (error) {
     console.error("Audio setup error:", error);
     if (error.name === "NotAllowedError") {
-      window.alert("Microphone access is required. Please enable it in your device settings and try again.");
+      window.alert(
+        "Microphone access is required. Please enable it in your device settings and try again."
+      );
     } else if (error.name === "NotFoundError") {
-      window.alert("No microphone found. Please ensure your device has a working microphone.");
+      window.alert(
+        "No microphone found. Please ensure your device has a working microphone."
+      );
     } else {
       window.alert(`Failed to start call: ${error.message}`);
     }
@@ -59,51 +52,56 @@ function CallComponent() {
     setIsAnyToggleFalse(anyFalse);
   }, [buttons]);
 
-  sdk.on("conversationStarted", () => {
-    const updatedButtons = buttons.map((item) => {
-      if (item.id === CallStart) {
-        return { ...item, toggle: false };
-      }
-      return item;
+  useEffect(() => {
+    sdk.on("call_started", () => {
+      console.log("Call started");
+      const updatedButtons = buttons.map((item) => {
+        if (item.id === CallStart) {
+          return { ...item, toggle: false };
+        }
+        return item;
+      });
+      setButtons(updatedButtons);
     });
-    setButtons(updatedButtons);
-  });
 
-  sdk.on("conversationEnded", () => {
-    const updatedButtons = buttons.map((item) => {
-      if (item.id === CallStart) {
-        return { ...item, toggle: true };
-      }
-      return item;
+    sdk.on("call_ended", () => {
+      console.log("Call ended");
+      const updatedButtons = buttons.map((item) => {
+        if (item.id === CallStart) {
+          return { ...item, toggle: true };
+        }
+        return item;
+      });
+      setButtons(updatedButtons);
     });
-    setButtons(updatedButtons);
-  });
 
-  sdk.on("error", (error) => {
-    console.error("An error occurred:", error);
-  });
+    sdk.on("error", (error) => {
+      console.error("An error occurred:", error);
+    });
 
-  sdk.on("update", (update) => {
-    console.log("update", update);
-  });
+    sdk.on("update", (update) => {
+      console.log("update", update);
+    });
 
-  sdk.on("metadata", (metadata) => {
-    console.log("metadata", metadata);
-  });
+    sdk.on("metadata", (metadata) => {
+      console.log("metadata", metadata);
+    });
 
-  sdk.on("agentStartTalking", () => {});
+    sdk.on("agent_start_talking", () => {});
+    sdk.on("agent_stop_talking", () => {});
 
-  sdk.on("agentStopTalking", () => {});
+    return () => {
+      sdk.removeAllListeners();
+    };
+  }, [CallStart, buttons]);
 
   const EndCall = () => {
-    sdk.stopConversation();
+    sdk.stopCall();
   };
 
   const ApiCallBasedOnFlag = async (flag) => {
     try {
-      const response = await axios.get(
-        `${apiURL}voiceAgent/startCall${flag}`
-      );
+      const response = await axios.get(`${apiURL}voiceAgent/startCall${flag}`);
       if (response.status === 200) {
         setStartCall(flag);
         startCall(response.data.data);
@@ -124,7 +122,7 @@ function CallComponent() {
         </div>
         <h1 className="AIvoice">AI Voice Samples</h1>
       </header>
-      
+
       <main>
         {buttons?.map((btn) => (
           <div className="CallerHeading" key={btn?.id || btn?.name}>

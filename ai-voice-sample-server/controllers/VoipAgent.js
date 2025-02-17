@@ -67,6 +67,9 @@ const findAgentId = async (id) => {
       case 7:
         agentId = "agent_e733b755eb1f2837cd22d87c42";
         break;
+      case 8:
+        agentId = "agent_97cb567456b20f9706e8298b7c";
+        break;
       default:
         throw new Error("Invalid agent ID");
     }

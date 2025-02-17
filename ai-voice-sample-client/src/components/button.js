@@ -51,4 +51,13 @@ export const Buttons = [
       "AI-powered assistant scheduling consultations based on investment preferences.",
     toggle: true,
   },
+  {
+    id: 8,
+    name: "Women's Health clinic",
+    about:
+      "Book consultancy with Dr. Inaê Almeida",
+    example:
+      "AI-powered assistant with Brazillian capability to book a call",
+    toggle: true,
+  },
 ];
